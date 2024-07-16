@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 import tempfile
-
+from webCrawler import WebCrawler
 
 tempfile.tempdir = './temp'
 app = FastAPI()
@@ -13,7 +13,13 @@ class URLRequest(BaseModel):
 
 @app.post("/crawl_and_summarize")
 def crawl_and_summarize(request: URLRequest):
-    return "hello world"
+    crawler = WebCrawler(request.url)
+    urls = crawler.crawl()
+
+    if not urls:
+        raise HTTPException(status_code=404, detail="No URLs found.")
+
+    return {"urls": urls}
 
 
 if __name__ == "__main__":
