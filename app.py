@@ -2,6 +2,7 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 import tempfile
 from webCrawler import WebCrawler
+from summarizer import summarize_content
 
 tempfile.tempdir = './temp'
 app = FastAPI()
@@ -19,7 +20,8 @@ def crawl_and_summarize(request: URLRequest):
     if not urls:
         raise HTTPException(status_code=404, detail="No URLs found.")
 
-    return {"urls": urls}
+    summaries = summarize_content(urls)
+    return {"summaries": summaries}
 
 
 if __name__ == "__main__":
