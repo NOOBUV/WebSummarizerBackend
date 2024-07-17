@@ -40,7 +40,9 @@ def summarize_content(urls):
                 summaries.append({"url": url, "summary": output})
             else:
                 print("length of data is 0")
+                summaries.append({'url': url, 'summary': "No data found"})
         except Exception as e:
             print(f"Failed to summarize {url}: {e}")
             summaries.append(
                 {"url": url, "summary": "Failed to summarize content."})
+    return summaries
