@@ -3,10 +3,18 @@ from pydantic import BaseModel
 import tempfile
 from webCrawler import WebCrawler
 from summarizer import summarize_content
+from fastapi.middleware.cors import CORSMiddleware
 
 tempfile.tempdir = './temp'
 app = FastAPI()
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  
+    allow_credentials=True,
+    allow_methods=["*"],  
+    allow_headers=["*"],  
+)
 
 class URLRequest(BaseModel):
     url: str
